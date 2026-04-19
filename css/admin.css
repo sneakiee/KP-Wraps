@@ -1,0 +1,96 @@
+/*
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Defines styles for the admin dashboard layout, panels, tables, and modal components.
+ */
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{min-height:100vh;font-family:'DM Sans',sans-serif;background:#f0f4f8;color:#1a1f2e;display:flex;}
+
+/* Sidebar */
+.sidebar{width:220px;min-height:100vh;background:#ffffff;border-right:1px solid #d8d4cc;display:flex;flex-direction:column;padding:1.5rem 1rem;position:sticky;top:0;flex-shrink:0;}
+.sidebar-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#49a2e6;letter-spacing:.1em;margin-bottom:.2rem;}
+.sidebar-sub{font-size:.75rem;color:#888;margin-bottom:1.8rem;}
+.sidebar-nav{display:flex;flex-direction:column;gap:.4rem;flex:1;}
+.sidebar-btn{display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem;border-radius:8px;text-decoration:none;font-size:.88rem;font-weight:600;color:#555;border:1.5px solid transparent;transition:all .2s;cursor:pointer;background:none;}
+.sidebar-btn:hover{border-color:#49a2e6;color:#49a2e6;}
+.sidebar-btn.active{background:#49a2e6;color:#fff;border-color:#49a2e6;}
+.badge{background:#d75a44;color:#fff;border-radius:20px;padding:.1rem .45rem;font-size:.72rem;font-weight:700;}
+.sidebar-logout{margin-top:auto;padding-top:1rem;}
+.sidebar-logout a{display:block;text-align:center;padding:.55rem;border-radius:8px;border:1.5px solid #d0cdc8;color:#888;text-decoration:none;font-size:.85rem;transition:all .2s;}
+.sidebar-logout a:hover{border-color:#d75a44;color:#d75a44;}
+
+/* Main */
+.main{flex:1;padding:2rem;overflow:auto;}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;margin-bottom:1.2rem;letter-spacing:.04em;}
+
+/* Cards / panels */
+.panel{background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);padding:1.3rem 1.5rem;margin-bottom:1.5rem;}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.04em;}
+
+/* Search */
+.search-bar{padding:.5rem .8rem;border:1.5px solid #d0cdc8;border-radius:8px;font-family:inherit;font-size:.88rem;width:220px;}
+.search-bar:focus{outline:none;border-color:#49a2e6;}
+
+/* Table */
+table{width:100%;border-collapse:collapse;font-size:.88rem;}
+th{text-align:left;padding:.5rem .75rem;color:#888;font-weight:600;font-size:.78rem;text-transform:uppercase;border-bottom:2px solid #f0f4f8;}
+td{padding:.6rem .75rem;border-bottom:1px solid #f0ece4;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafbfc;}
+.teal-btn{background:#49a2e6;color:#fff;border:none;border-radius:6px;padding:.3rem .75rem;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;}
+.teal-btn:hover{background:#2d86c9;}
+.red-btn{background:#d75a44;color:#fff;border:none;border-radius:6px;padding:.3rem .75rem;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;}
+.red-btn:hover{background:#b84836;}
+.outline-btn{background:transparent;border:1.5px solid #49a2e6;color:#49a2e6;border-radius:6px;padding:.3rem .75rem;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;}
+.outline-btn:hover{background:#49a2e6;color:#fff;}
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:none;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:#ffffff;border-radius:14px;padding:2rem;width:min(440px,95vw);box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;margin-bottom:1rem;}
+.modal label{font-size:.82rem;font-weight:600;color:#444;display:block;margin-bottom:.3rem;}
+.modal input,.modal select{width:100%;padding:.6rem .8rem;border:1.5px solid #d0cdc8;border-radius:8px;font-size:.9rem;font-family:inherit;margin-bottom:.8rem;background:#fff;color:#1a1f2e;}
+.modal-btns{display:flex;gap:.75rem;margin-top:.5rem;}
+.modal-msg{font-size:.85rem;font-weight:600;margin-top:.5rem;}
+.modal-msg.ok{color:#27ae60;} .modal-msg.err{color:#c0392b;}
+
+/* Sections hidden by default */
+.section{display:none;}
+.section.active{display:block;}
+
+/* Review cards */
+.rev-card{background:#fafbfc;border-radius:10px;padding:1rem 1.2rem;margin-bottom:.75rem;border:1px solid #f0f4f8;}
+.rev-card-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.4rem;}
+.stars{color:#f5c542;}
+.rev-body{font-size:.88rem;color:#444;margin:.4rem 0;}
+.rev-meta{font-size:.78rem;color:#888;}
+.rev-btns{display:flex;gap:.5rem;margin-top:.6rem;}
+
+/* Schedule table */
+.status-booked{color:#27ae60;font-weight:600;}
+.status-cancelled{color:#c0392b;font-weight:600;}
+
+/* Messages */
+.msg-card{background:#fafbfc;border-radius:10px;padding:1rem 1.2rem;margin-bottom:.75rem;border:1px solid #f0f4f8;}
+.msg-card.unread{border-left:4px solid #49a2e6;}
+.msg-subject{font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+.msg-from{font-size:.8rem;color:#888;margin-bottom:.5rem;}
+.msg-body-text{font-size:.88rem;color:#333;line-height:1.6;}
+
+/* Transactions */
+.tx-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.6rem;align-items:end;margin-bottom:1rem;}
+.tx-form select,.tx-form input{margin-bottom:0;}
+.tx-form input{padding:.55rem .8rem;border:1.5px solid #d0cdc8;border-radius:8px;font-family:inherit;font-size:.88rem;}
+.tx-form select{padding:.55rem .8rem;border:1.5px solid #d0cdc8;border-radius:8px;font-family:inherit;font-size:.88rem;}
+.charge{color:#c0392b;} .payment{color:#27ae60;} .refund{color:#e67e22;}
+
+@media(max-width:700px){
+  body{flex-direction:column;}
+  .sidebar{width:100%;min-height:auto;flex-direction:row;flex-wrap:wrap;padding:1rem;}
+  .sidebar-nav{flex-direction:row;flex-wrap:wrap;}
+  .sidebar-logout{margin-top:0;padding-top:0;}
+  .tx-form{grid-template-columns:1fr 1fr;}
+}

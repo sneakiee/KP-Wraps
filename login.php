@@ -1,4 +1,9 @@
 <?php
+/**
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Processes login requests and returns authentication results for users.
+ */
 // start session and set response type to json
 session_start();
 header('Content-Type: application/json');

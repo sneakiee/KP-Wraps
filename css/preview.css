@@ -1,0 +1,81 @@
+/*
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Defines styles for the wrap preview selector, swatches, and quote panel.
+ */
+
+/* css variables for reusable colours */
+:root {
+  --bg: #070a10; --panel: #ffffff; --text: #1a1f2e; --accent: #49a2e6;
+  --danger: #d75a44; --shadow: 0 14px 30px rgba(0,0,0,0.28); --radius: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+/* dark gradient background */
+body { min-height: 100vh; font-family: 'DM Sans', sans-serif;
+  background: radial-gradient(circle at 15% 15%, rgba(106,182,255,0.15), transparent 35%),
+              radial-gradient(circle at 85% 10%, rgba(78,205,196,0.2), transparent 32%),
+              linear-gradient(180deg, #05070d 0%, #091221 100%); color: #f6f8ff; }
+.shell { width: min(1100px,100%); margin: 0 auto; padding: 0 1rem 3rem; }
+.hero { text-align: center; padding: 2rem 0 1.5rem; }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.6rem,4vw,2.2rem); }
+.hero p { color: #b5bccf; margin-top: .4rem; }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: .05em; margin-bottom: .75rem; }
+
+/* Vehicle selector - 4 cards in a row */
+.vehicle-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 2rem; }
+.vehicle-card {
+  background: #131824; border: 2px solid transparent; border-radius: var(--radius);
+  padding: 1.2rem .8rem; text-align: center; cursor: pointer; transition: all .2s;
+}
+.vehicle-card:hover { border-color: var(--accent); }
+/* active card gets a teal border and darker background */
+.vehicle-card.active { border-color: var(--accent); background: #0d2b2a; }
+.vehicle-icon { font-size: 2.5rem; margin-bottom: .5rem; }
+.vehicle-card h3 { font-size: .95rem; font-weight: 600; margin-bottom: .2rem; }
+.vehicle-card p { font-size: .78rem; color: #6a6f7e; }
+
+/* Car photo preview area */
+.preview-area {
+  background: #131824; border-radius: var(--radius); padding: 2rem;
+  margin-bottom: 2rem; text-align: center; border: 1.5px solid #2a2f3f; position: relative; overflow: hidden;
+}
+.car-svg { width: 100%; max-width: 520px; transition: all .3s; }
+.car-svg path, .car-svg rect, .car-svg ellipse { transition: fill .3s; }
+
+/* Color swatch grid - 6 per row */
+.swatch-row { display: grid; grid-template-columns: repeat(6,1fr); gap: .75rem; margin-bottom: 2rem; }
+.swatch-btn {
+  border-radius: 10px; padding: .75rem .5rem; text-align: center; cursor: pointer;
+  border: 2px solid transparent; transition: all .2s; background: #131824;
+}
+.swatch-btn:hover { border-color: var(--accent); }
+/* active swatch gets a blue border and glow */
+.swatch-btn.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(78,205,196,.3); }
+/* circular colour dot inside each swatch */
+.swatch-dot { width: 36px; height: 36px; border-radius: 50%; margin: 0 auto .4rem; border: 2px solid rgba(255,255,255,.15); }
+.swatch-btn span { font-size: .78rem; color: #b5bccf; font-weight: 600; }
+
+/* Quote panel at the bottom */
+.quote-panel {
+  background: var(--panel); border-radius: var(--radius); padding: 1.2rem 1.5rem;
+  color: var(--text); display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem; box-shadow: var(--shadow); flex-wrap: wrap;
+}
+.quote-panel h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; margin-bottom: .3rem; }
+.quote-meta { display: flex; flex-wrap: wrap; gap: 1.2rem; color: #555; font-size: .9rem; align-items: center; }
+select { border: 1.5px solid #c9ceda; border-radius: 8px; padding: .4rem .6rem; font-family: inherit; font-size: .9rem; }
+/* price estimate box in red/orange */
+.estimate {
+  background: #f6e5dd; border: 2px solid var(--danger); color: #8a2f1e;
+  border-radius: 12px; padding: .8rem 1.2rem; min-width: 140px;
+  text-align: center; font-weight: 700; font-size: 2rem; white-space: nowrap;
+}
+.book-quote-btn {
+  background: var(--accent); color: #fff; border: none; border-radius: 8px;
+  padding: .65rem 1.4rem; font-size: .9rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: background .2s; margin-top: .5rem;
+}
+.book-quote-btn:hover { background: #2d86c9; }
+/* stack grid on smaller screens */
+@media(max-width:800px){ .vehicle-grid{grid-template-columns:repeat(2,1fr)} .swatch-row{grid-template-columns:repeat(3,1fr)} }
+@media(max-width:500px){ .swatch-row{grid-template-columns:repeat(2,1fr)} .estimate{font-size:1.4rem} }

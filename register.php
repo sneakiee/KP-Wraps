@@ -1,4 +1,9 @@
 <?php
+/**
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Handles registration submissions and creates new user accounts.
+ */
 header('Content-Type: application/json');
 require 'db.php';
 

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Provides admin-side API endpoints for dashboard data retrieval and moderation actions.
+ */
 session_start();
 header('Content-Type: application/json');
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {

@@ -1,3 +1,9 @@
+<!--
+Name: Real MaJiK (Team 47)
+Created: March 23, 2026
+Description: Serves the user registration form UI for creating new accounts.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,73 +13,7 @@
   <!-- google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    /* dark background, card centred on the page */
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'DM Sans', 'Trebuchet MS', sans-serif;
-      background: linear-gradient(135deg, #0a0a0a 0%, #111827 100%);
-      color: #1a1f2e;
-      padding: 1.5rem;
-    }
-    /* white card container */
-    .card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 2.5rem 2.2rem 2rem;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    }
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.2rem;
-      letter-spacing: .12em;
-      color: #49a2e6;
-      text-align: center;
-      margin-bottom: .1rem;
-    }
-    .tagline { text-align: center; color: #666; font-size: .85rem; margin-bottom: 1.6rem; }
-    /* two column grid for first and last name */
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-    label { display: block; font-size: .82rem; font-weight: 600; color: #444; margin-bottom: .3rem; }
-    input {
-      width: 100%;
-      padding: .65rem .9rem;
-      border: 1.5px solid #d0cdc8;
-      border-radius: 8px;
-      font-size: .95rem;
-      background: #fff;
-      margin-bottom: 1rem;
-      font-family: inherit;
-      transition: border-color .2s;
-    }
-    input:focus { outline: none; border-color: #49a2e6; }
-    /* two buttons side by side */
-    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: .5rem; }
-    button {
-      padding: .7rem;
-      border-radius: 8px;
-      font-size: .95rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background .2s, color .2s;
-    }
-    /* solid blue submit button */
-    .btn-submit { background: #49a2e6; color: #fff; border: none; }
-    .btn-submit:hover { background: #2d86c9; }
-    /* outline back button */
-    .btn-back { background: transparent; color: #49a2e6; border: 2px solid #49a2e6; }
-    .btn-back:hover { background: #49a2e6; color: #fff; }
-    /* error message shown in red, success in green */
-    .msg { margin-top: .9rem; text-align: center; font-size: .88rem; color: #c0392b; min-height: 1.2em; }
-    .msg.ok { color: #27ae60; }
-  </style>
+  <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
   <div class="card">
@@ -97,45 +37,11 @@
     <label>Password <span style="font-weight:400;color:#888">(8+ chars, include a number)</span></label>
     <input type="password" id="password" placeholder="••••••••">
     <div class="btn-row">
-      <button class="btn-submit" onclick="doRegister()">Create Account</button>
-      <button class="btn-back" onclick="location.href='index.html'">Back</button>
+      <button class="btn-submit" id="registerBtn">Create Account</button>
+      <button class="btn-back" id="backToLoginBtn">Back</button>
     </div>
     <p class="msg" id="msg"></p>
   </div>
-  <script>
-    // handle the registration form submission
-    async function doRegister() {
-      const first    = document.getElementById('first_name').value.trim();
-      const last     = document.getElementById('last_name').value.trim();
-      const email    = document.getElementById('email').value.trim();
-      const phone    = document.getElementById('phone').value.trim();
-      const password = document.getElementById('password').value;
-      const msg      = document.getElementById('msg');
-      msg.className  = 'msg';
-      // validate all required fields are filled in
-      if (!first || !last || !email || !password) { msg.textContent = 'Please fill in all required fields.'; return; }
-      // validate email format
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please enter a valid email.'; return; }
-      // password must be 8+ chars and include a number
-      if (password.length < 8 || !/\d/.test(password)) { msg.textContent = 'Password must be 8+ chars and include a number.'; return; }
-      const fd = new FormData();
-      fd.append('first_name', first); fd.append('last_name', last);
-      fd.append('email', email); fd.append('phone', phone); fd.append('password', password);
-      try {
-        const res  = await fetch('register.php', { method: 'POST', body: fd });
-        const data = await res.json();
-        if (data.success) {
-          // show success message then redirect to login after a short delay
-          msg.className = 'msg ok';
-          msg.textContent = 'Account created! Redirecting to login…';
-          setTimeout(() => location.href = 'index.html', 1200);
-        } else {
-          msg.textContent = data.error || 'Registration failed.';
-        }
-      } catch { msg.textContent = 'Network error. Please try again.'; }
-    }
-    // allow pressing enter to submit the form
-    document.addEventListener('keydown', e => { if (e.key === 'Enter') doRegister(); });
-  </script>
+  <script src="js/register.js"></script>
 </body>
 </html>

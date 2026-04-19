@@ -1,4 +1,9 @@
 <?php
+/**
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Configures and initializes the primary database connection used by the application.
+ */
 // db credentials for the PDO connection used everywhere except reviews
 $host   = 'localhost';
 $dbname = 'kpwraps';

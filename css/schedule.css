@@ -1,0 +1,108 @@
+/*
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Defines styles for the scheduling calendar, slot grid, booking card, and appointment list.
+ */
+
+/* css variables for reusable colours and styles */
+:root {
+  --bg: #070a10; --panel: #ffffff; --text: #1a1f2e; --muted: #6a6f7e;
+  --accent: #49a2e6; --danger: #d75a44; --shadow: 0 14px 30px rgba(0,0,0,0.28); --radius: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+/* dark gradient background */
+body {
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  background: radial-gradient(circle at 15% 15%, rgba(106,182,255,0.15), transparent 35%),
+              radial-gradient(circle at 85% 10%, rgba(78,205,196,0.2), transparent 32%),
+              linear-gradient(180deg, #05070d 0%, #091221 100%);
+  color: #f6f8ff;
+}
+.shell { width: min(1100px,100%); margin: 0 auto; padding: 0 1rem 3rem; }
+.hero { text-align: center; padding: 2rem 0 1.25rem; }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.6rem,4vw,2.2rem); }
+.hero p { color: #b5bccf; margin-top: .4rem; }
+
+/* calendar header with month name and nav arrows */
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.cal-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: .05em; }
+.cal-nav { background: none; border: 1.5px solid #3a3f50; color: #aaa; border-radius: 8px; padding: .4rem .9rem; cursor: pointer; font-size: 1rem; transition: all .2s; }
+.cal-nav:hover { border-color: var(--accent); color: var(--accent); }
+
+/* 7-column grid for the calendar days */
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
+.cal-day-name { text-align: center; font-size: .75rem; font-weight: 700; color: #6a6f7e; padding: .4rem 0; text-transform: uppercase; }
+.cal-day {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border-radius: 10px; font-size: .88rem; cursor: pointer; border: 1.5px solid transparent;
+  transition: all .18s; background: #131824;
+}
+.cal-day:empty { background: transparent; cursor: default; }
+/* past days are greyed out and not clickable */
+.cal-day.past { color: #3a3f50; cursor: not-allowed; }
+/* today gets a blue border */
+.cal-day.today { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+/* selected day gets a solid blue background */
+.cal-day.selected { background: var(--accent); color: #070a10; font-weight: 700; }
+.cal-day:not(.past):not(:empty):hover:not(.selected) { border-color: var(--accent); color: var(--accent); }
+
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: .05em; margin-bottom: .75rem; color: #e0e4f0; }
+
+/* grid of time slot buttons */
+.slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: .5rem; margin-bottom: 1.5rem; }
+.slot {
+  padding: .55rem; text-align: center; border-radius: 8px; font-size: .85rem; font-weight: 600;
+  cursor: pointer; border: 1.5px solid transparent; transition: all .18s;
+}
+/* available slots are teal/blue */
+.slot.available { background: #0d2b2a; border-color: var(--accent); color: var(--accent); }
+.slot.available:hover { background: var(--accent); color: #070a10; }
+.slot.available.selected { background: var(--accent); color: #070a10; }
+/* booked slots are red and not clickable */
+.slot.booked { background: #2b0f0a; border-color: var(--danger); color: var(--danger); cursor: not-allowed; opacity: .7; }
+.slot-hint { color: #6a6f7e; font-size: .82rem; margin-bottom: 1rem; }
+
+/* booking confirmation card shown when a slot is selected */
+.booking-card {
+  background: var(--panel); border-radius: var(--radius); padding: 1.3rem 1.5rem;
+  color: var(--text); box-shadow: var(--shadow);
+}
+.booking-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; margin-bottom: .8rem; }
+.booking-meta { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-bottom: 1rem; font-size: .9rem; color: #555; }
+.booking-meta span strong { color: var(--text); }
+.service-select { margin-bottom: 1rem; }
+.service-select label { font-size: .82rem; font-weight: 600; color: #555; display: block; margin-bottom: .3rem; }
+.service-select select {
+  border: 1.5px solid #c9ceda; border-radius: 8px; padding: .45rem .6rem;
+  font-size: .9rem; font-family: inherit; color: #1a1f2e; background: #fff; width: 100%;
+}
+/* confirm button */
+.confirm-btn {
+  background: var(--accent); color: #fff; border: none; border-radius: 8px;
+  padding: .7rem 1.6rem; font-size: .95rem; font-weight: 700; cursor: pointer; font-family: inherit;
+  transition: background .2s;
+}
+.confirm-btn:hover { background: #2d86c9; }
+.confirm-btn:disabled { background: #aaa; cursor: not-allowed; }
+/* success and error messages after booking */
+.booking-msg { margin-top: .75rem; font-size: .88rem; font-weight: 600; }
+.booking-msg.ok { color: #27ae60; }
+.booking-msg.err { color: #c0392b; }
+
+/* the user's appointments list */
+.my-appts { background: var(--panel); border-radius: var(--radius); padding: 1.3rem 1.5rem; color: var(--text); box-shadow: var(--shadow); }
+.my-appts h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; margin-bottom: .8rem; }
+.appt-row { display: flex; align-items: center; justify-content: space-between; padding: .6rem 0; border-bottom: 1px solid #e0ddd8; gap: 1rem; flex-wrap: wrap; }
+.appt-row:last-child { border-bottom: none; }
+.appt-info { font-size: .88rem; }
+.appt-info strong { display: block; margin-bottom: .1rem; }
+/* red cancel button on each appointment */
+.cancel-btn { background: #c0392b; color: #fff; border: none; border-radius: 6px; padding: .35rem .8rem; font-size: .82rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+.cancel-btn:hover { background: #a93226; }
+.no-appts { color: #888; font-size: .9rem; }
+
+/* two column layout for the booking card and appointments list */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+/* stack to single column on small screens */
+@media(max-width:750px){ .grid2 { grid-template-columns: 1fr; } }

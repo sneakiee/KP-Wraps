@@ -1,0 +1,71 @@
+/*
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Defines styles for the account registration page and form controls.
+ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* dark background, card centred on the page */
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', 'Trebuchet MS', sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #111827 100%);
+  color: #1a1f2e;
+  padding: 1.5rem;
+}
+/* white card container */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem 2.2rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: .12em;
+  color: #49a2e6;
+  text-align: center;
+  margin-bottom: .1rem;
+}
+.tagline { text-align: center; color: #666; font-size: .85rem; margin-bottom: 1.6rem; }
+/* two column grid for first and last name */
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+label { display: block; font-size: .82rem; font-weight: 600; color: #444; margin-bottom: .3rem; }
+input {
+  width: 100%;
+  padding: .65rem .9rem;
+  border: 1.5px solid #d0cdc8;
+  border-radius: 8px;
+  font-size: .95rem;
+  background: #fff;
+  margin-bottom: 1rem;
+  font-family: inherit;
+  transition: border-color .2s;
+}
+input:focus { outline: none; border-color: #49a2e6; }
+/* two buttons side by side */
+.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: .5rem; }
+button {
+  padding: .7rem;
+  border-radius: 8px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .2s, color .2s;
+}
+/* solid blue submit button */
+.btn-submit { background: #49a2e6; color: #fff; border: none; }
+.btn-submit:hover { background: #2d86c9; }
+/* outline back button */
+.btn-back { background: transparent; color: #49a2e6; border: 2px solid #49a2e6; }
+.btn-back:hover { background: #49a2e6; color: #fff; }
+/* error message shown in red, success in green */
+.msg { margin-top: .9rem; text-align: center; font-size: .88rem; color: #c0392b; min-height: 1.2em; }
+.msg.ok { color: #27ae60; }

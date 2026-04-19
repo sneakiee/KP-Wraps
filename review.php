@@ -1,4 +1,9 @@
 <?php
+/**
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Displays approved reviews and provides the form to submit new client reviews.
+ */
 // start session and redirect if not logged in as a client
 session_start();
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'client') {
@@ -48,6 +53,11 @@ $reviews_result = $db->query(
 $reviews = $reviews_result ? $reviews_result->fetch_all(MYSQLI_ASSOC) : [];
 
 // helper function to turn a number into filled and empty stars
+/**
+ * purpose of function
+ * @param {param} n
+ * @returns return
+ */
 function stars(int $n): string {
     return str_repeat('★', $n) . str_repeat('☆', 5 - $n);
 }
@@ -60,71 +70,7 @@ function stars(int $n): string {
   <title>KP Wraps — Reviews</title>
   <!-- google fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* css variables for reusable colours and styles */
-    :root { --accent:#49a2e6; --danger:#d75a44; --radius:14px; --shadow:0 14px 30px rgba(0,0,0,.28); }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    /* dark gradient background */
-    body { min-height:100vh; font-family:'DM Sans',sans-serif;
-      background:radial-gradient(circle at 15% 15%,rgba(106,182,255,.15),transparent 35%),
-                 radial-gradient(circle at 85% 10%,rgba(78,205,196,.2),transparent 32%),
-                 linear-gradient(180deg,#05070d 0%,#091221 100%); color:#f6f8ff; }
-    /* centers and limits the page width */
-    .shell { width:min(900px,100%); margin:0 auto; padding:0 1rem 3rem; }
-    .hero { text-align:center; padding:2rem 0 1.5rem; }
-    .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.6rem,4vw,2.2rem); }
-    .hero p { color:#b5bccf; margin-top:.4rem; }
-
-    /* badge that shows the average star rating */
-    .avg-badge { display:inline-flex; align-items:center; gap:.6rem; background:#131824; border:1.5px solid #2a2f3f; border-radius:40px; padding:.5rem 1.2rem; margin:0 auto 1.5rem; }
-    .avg-badge .stars { color:#f5c542; font-size:1.2rem; }
-    .avg-badge .num { font-size:1.4rem; font-weight:700; }
-    .avg-badge .cnt { color:#6a6f7e; font-size:.85rem; }
-    .avg-wrap { text-align:center; }
-
-    /* individual review cards */
-    .review-card { background:#ffffff; border-radius:var(--radius); padding:1.3rem 1.5rem; color:#1a1f2e; margin-bottom:1rem; box-shadow:var(--shadow); }
-    .rc-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:.5rem; margin-bottom:.6rem; }
-    .rc-stars { color:#f5c542; font-size:1.1rem; }
-    .rc-date { font-size:.78rem; color:#888; }
-    .rc-title { font-weight:700; font-size:1rem; margin-bottom:.4rem; }
-    .rc-body { font-size:.9rem; color:#333; line-height:1.6; margin-bottom:.6rem; }
-    .rc-author { font-size:.8rem; color:#666; font-style:italic; }
-
-    /* pagination buttons at the bottom */
-    .pagination { display:flex; gap:.5rem; justify-content:center; margin-top:1.5rem; flex-wrap:wrap; }
-    .pagination a { background:#131824; border:1.5px solid #2a2f3f; color:#aaa; padding:.4rem .9rem; border-radius:8px; text-decoration:none; font-size:.85rem; transition:all .2s; }
-    .pagination a:hover,.pagination a.active { border-color:var(--accent); color:var(--accent); }
-
-    /* Submit form */
-    /* the review submission form at the bottom */
-    .submit-section { background:#ffffff; border-radius:var(--radius); padding:1.5rem; color:#1a1f2e; margin-top:2rem; box-shadow:var(--shadow); }
-    .submit-section h2 { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; margin-bottom:1rem; }
-    /* clickable star rating picker */
-    .star-picker { display:flex; gap:.3rem; margin-bottom:.8rem; }
-    .star-picker span { font-size:2rem; cursor:pointer; color:#ccc; transition:color .1s; }
-    .star-picker span.selected,.star-picker span.hovered { color:#f5c542; }
-    label.field-label { font-size:.82rem; font-weight:600; color:#444; display:block; margin-bottom:.3rem; }
-    /* text inputs and textarea styling */
-    input[type=text], textarea {
-      width:100%; padding:.65rem .9rem; border:1.5px solid #d0cdc8; border-radius:8px;
-      font-size:.9rem; font-family:inherit; margin-bottom:.85rem; background:#fff; color:#1a1f2e;
-    }
-    input[type=text]:focus, textarea:focus { outline:none; border-color:var(--accent); }
-    textarea { resize:vertical; min-height:90px; }
-    /* submit button */
-    .submit-btn { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:.7rem 1.6rem; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; transition:background .2s; }
-    .submit-btn:hover { background:#2d86c9; }
-    .submit-btn:disabled { background:#aaa; cursor:not-allowed; }
-    /* success and error alert messages */
-    .alert { margin-top:.75rem; padding:.6rem .9rem; border-radius:8px; font-size:.88rem; font-weight:600; display:none; }
-    .alert.show { display:block; }
-    .alert.ok { background:#e8f8f0; color:#27ae60; }
-    .alert.err { background:#fdecea; color:#c0392b; }
-
-    /* shown when there are no approved reviews yet */
-    .no-reviews { color:#6a6f7e; text-align:center; padding:2rem; }
-  </style>
+  <link rel="stylesheet" href="css/review.css">
 </head>
 <body>
 <?php include 'nav.php'; // include the navbar ?>
@@ -179,8 +125,7 @@ function stars(int $n): string {
     <!-- clickable stars for picking a rating -->
     <div class="star-picker" id="starPicker">
       <?php for ($i = 1; $i <= 5; $i++): ?>
-        <span data-val="<?= $i ?>" onclick="setRating(<?= $i ?>)"
-              onmouseenter="hoverRating(<?= $i ?>)" onmouseleave="unhoverRating()">★</span>
+        <span data-val="<?= $i ?>">★</span>
       <?php endfor; ?>
     </div>
     <!-- hidden input stores the selected rating value -->
@@ -189,58 +134,13 @@ function stars(int $n): string {
     <input type="text" id="revTitle" placeholder="e.g. Amazing work!">
     <label class="field-label">Your Review</label>
     <textarea id="revBody" placeholder="Tell us about your experience…"></textarea>
-    <button class="submit-btn" id="submitBtn" onclick="submitReview()">Submit Review</button>
+    <button class="submit-btn" id="submitBtn">Submit Review</button>
     <!-- success and error messages shown after submission -->
     <div class="alert ok" id="alertOk"></div>
     <div class="alert err" id="alertErr"></div>
   </div>
 </div>
 
-<script>
-// track the currently selected rating
-let rating = 0;
-// set rating when a star is clicked
-function setRating(n) { rating = n; updateStars(); }
-// highlight stars on hover
-function hoverRating(n) { document.querySelectorAll('#starPicker span').forEach((s,i) => { s.classList.toggle('hovered', i < n); }); }
-// remove hover highlight when mouse leaves
-function unhoverRating() { document.querySelectorAll('#starPicker span').forEach(s => s.classList.remove('hovered')); }
-// update which stars look selected based on the current rating
-function updateStars() { document.querySelectorAll('#starPicker span').forEach((s,i) => { s.classList.toggle('selected', i < rating); }); document.getElementById('ratingVal').value = rating; }
-
-// handle the review form submission
-async function submitReview() {
-  const title = document.getElementById('revTitle').value.trim();
-  const body  = document.getElementById('revBody').value.trim();
-  const okEl  = document.getElementById('alertOk');
-  const errEl = document.getElementById('alertErr');
-  // clear old alert messages
-  [okEl, errEl].forEach(a => { a.classList.remove('show'); a.textContent=''; });
-  // validate everything is filled in before submitting
-  if (rating === 0) { errEl.textContent='Please select a star rating.'; errEl.classList.add('show'); return; }
-  if (!title)       { errEl.textContent='Please enter a title.'; errEl.classList.add('show'); return; }
-  if (!body)        { errEl.textContent='Please write your review.'; errEl.classList.add('show'); return; }
-  // disable the button while waiting for the response
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.textContent = 'Submitting…';
-  // build the form data to send to the backend
-  const fd = new FormData();
-  fd.append('rating', rating); fd.append('title', title); fd.append('body', body);
-  try {
-    const res  = await fetch('review_api.php', { method:'POST', body:fd });
-    const data = await res.json();
-    if (data.success) {
-      // show success message and reset the form
-      okEl.textContent = 'Thank you! Your review has been submitted for approval.';
-      okEl.classList.add('show');
-      document.getElementById('revTitle').value = '';
-      document.getElementById('revBody').value = '';
-      rating = 0; updateStars();
-    } else { errEl.textContent = (data.error || 'Submission failed.'); errEl.classList.add('show'); }
-  } catch { errEl.textContent = 'Network error.'; errEl.classList.add('show'); }
-  // re-enable the button no matter what
-  finally { btn.disabled=false; btn.textContent='Submit Review'; }
-}
-</script>
+<script src="js/review.js"></script>
 </body>
 </html>

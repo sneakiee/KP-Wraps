@@ -1,4 +1,9 @@
 <?php
+/**
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Processes review submission requests from authenticated clients.
+ */
 // start session and return json
 session_start();
 header('Content-Type: application/json');

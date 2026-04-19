@@ -1,4 +1,9 @@
 <?php
+/**
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Handles appointment slot retrieval, booking, cancellation, and user appointment APIs.
+ */
 // start session and return json
 session_start();
 header('Content-Type: application/json');

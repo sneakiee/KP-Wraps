@@ -1,4 +1,9 @@
 <?php
+/**
+ * Name: Real MaJiK (Team 47)
+ * Created: March 23, 2026
+ * Description: Handles review database connectivity and helper access for review operations.
+ */
 // db credentials for the mysqli connection used by the reviews table
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
@@ -6,6 +11,10 @@ define('DB_PASS', '');
 define('DB_NAME', 'kpwraps');
 
 // returns a shared mysqli connection, only creates it once per request
+/**
+ * purpose of function
+ * @returns return
+ */
 function get_db(): mysqli {
     static $conn = null;
     if ($conn === null) {
