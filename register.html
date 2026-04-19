@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KP Wraps — Register</title>
+  <!-- google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* dark background, card centred on the page */
     body {
       min-height: 100vh;
       display: flex;
@@ -18,6 +20,7 @@
       color: #1a1f2e;
       padding: 1.5rem;
     }
+    /* white card container */
     .card {
       background: #ffffff;
       border-radius: 16px;
@@ -35,6 +38,7 @@
       margin-bottom: .1rem;
     }
     .tagline { text-align: center; color: #666; font-size: .85rem; margin-bottom: 1.6rem; }
+    /* two column grid for first and last name */
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
     label { display: block; font-size: .82rem; font-weight: 600; color: #444; margin-bottom: .3rem; }
     input {
@@ -49,6 +53,7 @@
       transition: border-color .2s;
     }
     input:focus { outline: none; border-color: #49a2e6; }
+    /* two buttons side by side */
     .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: .5rem; }
     button {
       padding: .7rem;
@@ -59,10 +64,13 @@
       font-family: inherit;
       transition: background .2s, color .2s;
     }
+    /* solid blue submit button */
     .btn-submit { background: #49a2e6; color: #fff; border: none; }
     .btn-submit:hover { background: #2d86c9; }
+    /* outline back button */
     .btn-back { background: transparent; color: #49a2e6; border: 2px solid #49a2e6; }
     .btn-back:hover { background: #49a2e6; color: #fff; }
+    /* error message shown in red, success in green */
     .msg { margin-top: .9rem; text-align: center; font-size: .88rem; color: #c0392b; min-height: 1.2em; }
     .msg.ok { color: #27ae60; }
   </style>
@@ -71,6 +79,7 @@
   <div class="card">
     <div class="logo"><img src="images/logos/logo.jpeg" alt="KP Wraps" style="width:140px;border-radius:8px;"></div>
     <p class="tagline">Create your account</p>
+    <!-- first and last name side by side -->
     <div class="row2">
       <div>
         <label>First Name</label>
@@ -94,6 +103,7 @@
     <p class="msg" id="msg"></p>
   </div>
   <script>
+    // handle the registration form submission
     async function doRegister() {
       const first    = document.getElementById('first_name').value.trim();
       const last     = document.getElementById('last_name').value.trim();
@@ -102,8 +112,11 @@
       const password = document.getElementById('password').value;
       const msg      = document.getElementById('msg');
       msg.className  = 'msg';
+      // validate all required fields are filled in
       if (!first || !last || !email || !password) { msg.textContent = 'Please fill in all required fields.'; return; }
+      // validate email format
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please enter a valid email.'; return; }
+      // password must be 8+ chars and include a number
       if (password.length < 8 || !/\d/.test(password)) { msg.textContent = 'Password must be 8+ chars and include a number.'; return; }
       const fd = new FormData();
       fd.append('first_name', first); fd.append('last_name', last);
@@ -112,6 +125,7 @@
         const res  = await fetch('register.php', { method: 'POST', body: fd });
         const data = await res.json();
         if (data.success) {
+          // show success message then redirect to login after a short delay
           msg.className = 'msg ok';
           msg.textContent = 'Account created! Redirecting to login…';
           setTimeout(() => location.href = 'index.html', 1200);
@@ -120,6 +134,7 @@
         }
       } catch { msg.textContent = 'Network error. Please try again.'; }
     }
+    // allow pressing enter to submit the form
     document.addEventListener('keydown', e => { if (e.key === 'Enter') doRegister(); });
   </script>
 </body>
