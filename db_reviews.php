@@ -12,8 +12,8 @@ define('DB_NAME', 'kpwraps');
 
 // returns a shared mysqli connection, only creates it once per request
 /**
- * purpose of function
- * @returns return
+ * Opens and caches the mysqli connection used by the review subsystem.
+ * @return mysqli Shared database connection for review queries.
  */
 function get_db(): mysqli {
     static $conn = null;

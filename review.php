@@ -54,9 +54,9 @@ $reviews = $reviews_result ? $reviews_result->fetch_all(MYSQLI_ASSOC) : [];
 
 // helper function to turn a number into filled and empty stars
 /**
- * purpose of function
- * @param {param} n
- * @returns return
+ * Builds a 5-star display string for a numeric review rating.
+ * @param int $n Rating value from 0 to 5.
+ * @return string Rendered star string.
  */
 function stars(int $n): string {
     return str_repeat('★', $n) . str_repeat('☆', 5 - $n);

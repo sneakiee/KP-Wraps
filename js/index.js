@@ -6,8 +6,8 @@
 
 // handle the login form submission
 /**
- * purpose of function
- * @returns return
+ * Submits the login form, shows the server response, and redirects on success.
+ * @returns {Promise<void>}
  */
 async function doLogin() {
   const email    = document.getElementById('email').value.trim();

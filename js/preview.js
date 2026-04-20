@@ -48,8 +48,8 @@ let selVehicle = 'sedan', selColor = 'black';
 
 // fade out the current image, swap the src, then fade back in
 /**
- * purpose of function
- * @returns return
+ * Rebuilds the preview image based on the current vehicle and wrap color.
+ * @returns {void}
  */
 function updateCarImage() {
   const img = document.getElementById('carImg');
@@ -64,10 +64,10 @@ function updateCarImage() {
 
 // called when a vehicle card is clicked
 /**
- * purpose of function
- * @param {param} el
- * @param {param} v
- * @returns return
+ * Updates the selected vehicle state, active card styling, and quote output.
+ * @param {HTMLElement} el Selected vehicle card.
+ * @param {string} v Vehicle key.
+ * @returns {void}
  */
 function selectVehicle(el, v) {
   document.querySelectorAll('.vehicle-card').forEach(c => c.classList.remove('active'));
@@ -77,10 +77,10 @@ function selectVehicle(el, v) {
 }
 // called when a colour swatch is clicked
 /**
- * purpose of function
- * @param {param} el
- * @param {param} c
- * @returns return
+ * Updates the selected color state, active swatch styling, and quote output.
+ * @param {HTMLElement} el Selected color swatch.
+ * @param {string} c Color key.
+ * @returns {void}
  */
 function selectColor(el, c) {
   document.querySelectorAll('.swatch-btn').forEach(b => b.classList.remove('active'));
@@ -90,8 +90,8 @@ function selectColor(el, c) {
 }
 // recalculate the price based on colour, vehicle and coverage selection
 /**
- * purpose of function
- * @returns return
+ * Recalculates the quote estimate using the current vehicle, color, and coverage.
+ * @returns {void}
  */
 function updateQuote() {
   const cov = document.getElementById('coverageSelect').value;
@@ -101,8 +101,8 @@ function updateQuote() {
 }
 
 /**
- * purpose of function
- * @returns return
+ * Binds preview page interactions for vehicle cards, swatches, coverage, and booking.
+ * @returns {void}
  */
 function setupPreviewListeners() {
   document.querySelectorAll('.vehicle-card[data-vehicle]').forEach(card => {

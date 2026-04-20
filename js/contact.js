@@ -6,8 +6,8 @@
 
 // handle the contact form submission
 /**
- * purpose of function
- * @returns return
+ * Validates and sends the contact form message, then restores the button state.
+ * @returns {Promise<void>}
  */
 async function sendMsg() {
   const name    = document.getElementById('cName').value.trim();

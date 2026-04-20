@@ -16,11 +16,11 @@ const MONTH_NAMES = ['January','February','March','April','May','June','July','A
 
 // format a date into YYYY-MM-DD string
 /**
- * purpose of function
- * @param {param} y
- * @param {param} m
- * @param {param} d
- * @returns return
+ * Builds a zero-padded YYYY-MM-DD date string.
+ * @param {number} y Year.
+ * @param {number} m Month index.
+ * @param {number} d Day of month.
+ * @returns {string}
  */
 function formatDate(y, m, d) {
   return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
@@ -28,8 +28,8 @@ function formatDate(y, m, d) {
 
 // build and render the calendar grid for the current month
 /**
- * purpose of function
- * @returns return
+ * Renders the month calendar and marks past or selected days.
+ * @returns {void}
  */
 function renderCal() {
   document.getElementById('calTitle').textContent = `${MONTH_NAMES[viewMonth]} ${viewYear}`;
@@ -59,9 +59,9 @@ function renderCal() {
 
 // called when a date is clicked, loads the available time slots for that day
 /**
- * purpose of function
- * @param {param} dateStr
- * @returns return
+ * Loads the booked slots for a selected date and renders the available time grid.
+ * @param {string} dateStr Date selected in YYYY-MM-DD format.
+ * @returns {Promise<void>}
  */
 async function pickDate(dateStr) {
   selectedDate = dateStr;
@@ -83,9 +83,9 @@ async function pickDate(dateStr) {
 
 // render the time slot buttons from 9am to 5pm in 30 min intervals
 /**
- * purpose of function
- * @param {param} booked
- * @returns return
+ * Renders the daily time slot buttons and marks booked slots as unavailable.
+ * @param {string[]} booked Booked slot values in HH:MM format.
+ * @returns {void}
  */
 function renderSlots(booked) {
   const times = [];
@@ -107,10 +107,11 @@ function renderSlots(booked) {
 
 // called when a time slot is clicked, shows the booking confirmation card
 /**
- * purpose of function
- * @param {param} val
- * @param {param} label
- * @returns return
+ * Stores the selected slot and opens the booking confirmation card.
+ * @param {string} val Slot time in HH:MM format.
+ * @param {string} label Human-readable slot label.
+ * @param {HTMLElement} slotEl Clicked slot element.
+ * @returns {void}
  */
 function pickSlot(val, label, slotEl) {
   selectedSlot = val;
@@ -126,8 +127,8 @@ function pickSlot(val, label, slotEl) {
 
 // submit the booking to the backend
 /**
- * purpose of function
- * @returns return
+ * Sends the selected date, slot, and service to the booking API.
+ * @returns {Promise<void>}
  */
 async function confirmBooking() {
   if (!selectedDate || !selectedSlot) return;
@@ -150,9 +151,9 @@ async function confirmBooking() {
 
 // cancel an appointment after confirming with the user
 /**
- * purpose of function
- * @param {param} id
- * @returns return
+ * Cancels a booked appointment after user confirmation.
+ * @param {string|number} id Appointment id.
+ * @returns {Promise<void>}
  */
 async function cancelAppt(id) {
   if (!confirm('Cancel this appointment?')) return;
@@ -165,8 +166,8 @@ async function cancelAppt(id) {
 
 // fetch and render the logged in user's appointments
 /**
- * purpose of function
- * @returns return
+ * Fetches the current user's appointments and renders them under My Appointments.
+ * @returns {Promise<void>}
  */
 async function loadMyAppts() {
   try {
@@ -189,8 +190,8 @@ async function loadMyAppts() {
 }
 
 /**
- * purpose of function
- * @returns return
+ * Wires up the calendar controls, booking controls, and cancel buttons.
+ * @returns {void}
  */
 function setupScheduleListeners() {
   document.getElementById('prevMonth').addEventListener('click', () => {

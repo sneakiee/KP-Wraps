@@ -6,8 +6,8 @@
 
 // handle the registration form submission
 /**
- * purpose of function
- * @returns return
+ * Validates the registration form and creates a new account through the backend.
+ * @returns {Promise<void>}
  */
 async function doRegister() {
   const first    = document.getElementById('first_name').value.trim();

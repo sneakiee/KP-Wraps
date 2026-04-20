@@ -14,9 +14,9 @@
 
   // update the clip position based on where the user dragged to
   /**
-   * purpose of function
-   * @param {param} x
-   * @returns return
+   * Moves the before/after comparison to a specific horizontal pointer position.
+   * @param {number} x Pointer x-coordinate in the page.
+   * @returns {void}
    */
   function setPos(x) {
     const rect = wrapper.getBoundingClientRect();

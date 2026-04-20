@@ -8,35 +8,35 @@
 let rating = 0;
 // set rating when a star is clicked
 /**
- * purpose of function
- * @param {param} n
- * @returns return
+ * Sets the review rating and refreshes the star display.
+ * @param {number} n Rating from 1 to 5.
+ * @returns {void}
  */
 function setRating(n) { rating = n; updateStars(); }
 // highlight stars on hover
 /**
- * purpose of function
- * @param {param} n
- * @returns return
+ * Highlights stars up to the hovered value.
+ * @param {number} n Hovered star count.
+ * @returns {void}
  */
 function hoverRating(n) { document.querySelectorAll('#starPicker span').forEach((s,i) => { s.classList.toggle('hovered', i < n); }); }
 // remove hover highlight when mouse leaves
 /**
- * purpose of function
- * @returns return
+ * Clears the hover state from all review stars.
+ * @returns {void}
  */
 function unhoverRating() { document.querySelectorAll('#starPicker span').forEach(s => s.classList.remove('hovered')); }
 // update which stars look selected based on the current rating
 /**
- * purpose of function
- * @returns return
+ * Synchronizes the star UI and hidden rating input with the current rating value.
+ * @returns {void}
  */
 function updateStars() { document.querySelectorAll('#starPicker span').forEach((s,i) => { s.classList.toggle('selected', i < rating); }); document.getElementById('ratingVal').value = rating; }
 
 // handle the review form submission
 /**
- * purpose of function
- * @returns return
+ * Validates and submits a review to the backend, then resets the form on success.
+ * @returns {Promise<void>}
  */
 async function submitReview() {
   const title = document.getElementById('revTitle').value.trim();
@@ -72,8 +72,8 @@ async function submitReview() {
 }
 
 /**
- * purpose of function
- * @returns return
+ * Binds star hover/click behavior and the submit button on the review page.
+ * @returns {void}
  */
 function setupReviewListeners() {
   const stars = document.querySelectorAll('#starPicker span[data-val]');

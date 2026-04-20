@@ -6,10 +6,10 @@
 
 // Section switching
 /**
- * purpose of function
- * @param {param} name
- * @param {param} btn
- * @returns return
+ * Switches the admin dashboard to the requested section and refreshes section-specific data.
+ * @param {string} name Section key to show.
+ * @param {HTMLElement} btn Button that triggered the switch.
+ * @returns {void}
  */
 function showSection(name, btn) {
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -23,8 +23,8 @@ function showSection(name, btn) {
 }
 
 /**
- * purpose of function
- * @returns return
+ * Wires up all admin page buttons, search input, and delegated action handlers.
+ * @returns {void}
  */
 function setupAdminListeners() {
   document.querySelectorAll('.sidebar-btn[data-section]').forEach(btn => {
@@ -115,9 +115,9 @@ function setupAdminListeners() {
 
 // Client search
 /**
- * purpose of function
- * @param {param} q
- * @returns return
+ * Filters the client table rows by a text search term.
+ * @param {string} q Search text to match against each row.
+ * @returns {void}
  */
 function filterClients(q) {
   q = q.toLowerCase();
@@ -128,8 +128,8 @@ function filterClients(q) {
 
 // Add client
 /**
- * purpose of function
- * @returns return
+ * Creates a new client account from the modal form and refreshes the dashboard on success.
+ * @returns {Promise<void>}
  */
 async function addClient() {
   const first=document.getElementById('ac-first').value.trim();
@@ -150,9 +150,9 @@ async function addClient() {
 
 // View client
 /**
- * purpose of function
- * @param {param} id
- * @returns return
+ * Loads a client profile, appointments, and transactions into the view modal.
+ * @param {string|number} id Client user id.
+ * @returns {Promise<void>}
  */
 async function viewClient(id) {
   document.getElementById('vc-body').innerHTML='<p style="color:#aaa">Loading…</p>';
@@ -174,8 +174,8 @@ async function viewClient(id) {
 
 // Reviews
 /**
- * purpose of function
- * @returns return
+ * Fetches pending reviews and renders approve/delete actions for each review.
+ * @returns {Promise<void>}
  */
 async function loadReviews() {
   const res=await fetch('admin_api.php?action=reviews');
@@ -198,10 +198,10 @@ async function loadReviews() {
     </div>`).join('');
 }
 /**
- * purpose of function
- * @param {param} id
- * @param {param} action
- * @returns return
+ * Sends a moderation action for a review and reloads the review list.
+ * @param {string|number} id Review id.
+ * @param {string} action Moderation action to apply.
+ * @returns {Promise<void>}
  */
 async function moderateReview(id,action) {
   const fd=new FormData();fd.append('action',action);fd.append('id',id);
@@ -211,8 +211,8 @@ async function moderateReview(id,action) {
 
 // Schedule
 /**
- * purpose of function
- * @returns return
+ * Fetches appointments for the selected admin date filter and renders the schedule table.
+ * @returns {Promise<void>}
  */
 async function loadSchedule() {
   const date=document.getElementById('scheduleFilter').value;
@@ -232,9 +232,9 @@ async function loadSchedule() {
     </tr>`).join('')+'</tbody></table>';
 }
 /**
- * purpose of function
- * @param {param} id
- * @returns return
+ * Cancels an appointment through the admin API and reloads the schedule list.
+ * @param {string|number} id Appointment id.
+ * @returns {Promise<void>}
  */
 async function cancelAppt(id) {
   if(!confirm('Cancel this appointment?'))return;
@@ -245,8 +245,8 @@ async function cancelAppt(id) {
 
 // Transactions
 /**
- * purpose of function
- * @returns return
+ * Fetches the transaction history and renders it in the transactions panel.
+ * @returns {Promise<void>}
  */
 async function loadTransactions() {
   const res=await fetch('admin_api.php?action=transactions');
@@ -263,8 +263,8 @@ async function loadTransactions() {
     </tr>`).join('')+'</tbody></table>';
 }
 /**
- * purpose of function
- * @returns return
+ * Submits a new transaction from the admin form and refreshes the transaction table.
+ * @returns {Promise<void>}
  */
 async function addTransaction() {
   const uid=document.getElementById('txClient').value;
@@ -283,8 +283,8 @@ async function addTransaction() {
 
 // Messages
 /**
- * purpose of function
- * @returns return
+ * Fetches contact messages and renders unread controls for each message.
+ * @returns {Promise<void>}
  */
 async function loadMessages() {
   const res=await fetch('admin_api.php?action=messages');
@@ -300,9 +300,9 @@ async function loadMessages() {
     </div>`).join('');
 }
 /**
- * purpose of function
- * @param {param} id
- * @returns return
+ * Marks a message as read through the admin API and reloads the message list.
+ * @param {string|number} id Message id.
+ * @returns {Promise<void>}
  */
 async function markRead(id) {
   const fd=new FormData();fd.append('action','mark_read');fd.append('id',id);
