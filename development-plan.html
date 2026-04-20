@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revised Development Plan — KP Wraps</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      color: #222;
+      background: #fff;
+      line-height: 1.7;
+      font-size: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
+    h2 {
+      font-size: 1.35rem; font-weight: 700;
+      margin: 2.5rem 0 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #222;
+    }
+    h3 { font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+    p { margin-bottom: 0.75rem; }
+    .subtitle { font-size: 1rem; color: #555; margin-bottom: 2rem; }
+
+    .meta-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; }
+    .meta-table td { padding: 0.4rem 1rem 0.4rem 0; vertical-align: top; }
+    .meta-table td:first-child { font-weight: 700; white-space: nowrap; width: 160px; }
+
+    .toc { background: #f7f7f5; border: 1px solid #e0ddd8; padding: 1.25rem 1.5rem; margin: 1.5rem 0 2rem; }
+    .toc ol { padding-left: 1.25rem; margin: 0; }
+    .toc li { margin: 0.25rem 0; }
+    .toc a { text-decoration: none; color: #222; }
+    .toc a:hover { text-decoration: underline; }
+
+    .db-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1.5rem; font-size: 0.9rem; }
+    .db-table th, .db-table td { border: 1px solid #ccc; padding: 0.4rem 0.75rem; text-align: left; }
+    .db-table th { background: #f0eeeb; font-weight: 700; }
+    .db-desc { font-size: 0.9rem; color: #555; margin-bottom: 0.5rem; font-style: italic; }
+    .pk { color: #b03a1a; font-weight: 600; }
+    .fk { color: #1a5c8a; font-weight: 600; }
+
+    .func-block { margin: 1rem 0; padding: 0.75rem 1rem; background: #fafaf8; border-left: 3px solid #ccc; }
+    .func-block h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .func-block p { font-size: 0.9rem; color: #444; margin: 0; }
+    .badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.3rem;
+      vertical-align: middle; text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .badge-select { background: #d4eeea; color: #14665a; }
+    .badge-insert { background: #e0daf5; color: #4a3a8a; }
+    .badge-update { background: #f5e0c8; color: #7a5010; }
+    .badge-delete { background: #f5d0d0; color: #8a2020; }
+    .badge-js { background: #e2edc8; color: #4a6a10; }
+
+    /* Revision markers */
+    .rev {
+      display: inline-block; font-size: 0.68rem; font-weight: 700;
+      padding: 0.1rem 0.45rem; border-radius: 3px; margin-left: 0.4rem;
+      vertical-align: middle; text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: Arial, sans-serif;
+    }
+    .rev-new     { background: #d4f0da; color: #1a6b2e; border: 1px solid #a0d8aa; }
+    .rev-changed { background: #fff3cc; color: #7a5800; border: 1px solid #f0d060; }
+    .rev-removed { background: #f5d0d0; color: #8a2020; border: 1px solid #e0a0a0; text-decoration: line-through; }
+
+    /* Callout boxes for revision reasons */
+    .rev-note {
+      font-size: 0.85rem;
+      font-family: Arial, sans-serif;
+      padding: 0.5rem 0.85rem;
+      border-radius: 4px;
+      margin: 0.4rem 0 0.9rem;
+    }
+    .rev-note-new     { background: #edfaef; border-left: 3px solid #2e9e50; color: #1a4a26; }
+    .rev-note-changed { background: #fffbe6; border-left: 3px solid #e0b800; color: #5a4200; }
+    .rev-note-removed { background: #fdf0f0; border-left: 3px solid #c04040; color: #5a1a1a; }
+
+    /* Rows highlighted in db tables */
+    .row-new     { background: #edfaef; }
+    .row-changed { background: #fffbe6; }
+    .row-removed { background: #fdf0f0; text-decoration: line-through; color: #888; }
+
+    .team-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .team-table td { padding: 0.4rem 1rem 0.4rem 0; vertical-align: top; border-bottom: 1px solid #e8e6e2; }
+    .team-table td:first-child { font-weight: 700; width: 140px; }
+
+    .wireframe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .wireframe-cap { font-size: 0.85rem; color: #555; text-align: center; margin-top: 0.25rem; }
+
+    .increment { margin: 1rem 0; padding: 1rem; background: #fafaf8; border: 1px solid #e8e6e2; }
+    .increment h4 { margin-bottom: 0.5rem; }
+    .increment ul { padding-left: 1.25rem; margin: 0; }
+    .increment li { margin: 0.35rem 0; font-size: 0.95rem; }
+
+    /* Client feedback section */
+    .feedback-section { background: #f7f7f5; border: 1px solid #e0ddd8; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+    blockquote {
+      border-left: 3px solid #aaa;
+      margin: 0.75rem 0 0.75rem 1rem;
+      padding: 0.4rem 0.75rem;
+      color: #444;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      .wireframe-grid { grid-template-columns: 1fr; }
+      body { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Revised Development Plan</h1>
+<p class="subtitle">KP Wraps — Car Wrapping &amp; Detailing Web Application</p>
+
+<div class="toc">
+  <strong>Table of Contents</strong>
+  <ol>
+    <li><a href="#names">Names</a></li>
+    <li><a href="#purpose">Purpose</a></li>
+    <li><a href="#data">Data Description</a></li>
+    <li><a href="#functions">Functions Performed by the App</a></li>
+    <li><a href="#roles">Roles of Team Members</a></li>
+    <li><a href="#wireframes">Wireframes</a></li>
+    <li><a href="#increments">The Increments</a></li>
+    <li><a href="#feedback">Client Feedback</a></li>
+    <li><a href="#increment1-feedback">Client Feedback on Increment 1</a></li>
+  </ol>
+</div>
+
+<!-- 1. NAMES -->
+<h2 id="names">1. Names</h2>
+<table class="meta-table">
+  <tr><td>Team Name:</td><td>Real Majik Inc</td></tr>
+  <tr><td>Team Members:</td><td>Jagbir, Kavin, Ryan, Mikael</td></tr>
+  <tr><td>Client Name:</td><td>Parmeet Riar</td></tr>
+  <tr><td>Client Affiliation:</td><td>Friend of Jagbir</td></tr>
+  <tr><td>App Name:</td><td>KP Wraps</td></tr>
+</table>
+
+<!-- 2. PURPOSE -->
+<h2 id="purpose">2. Purpose</h2>
+<p>
+  KP Wraps is a full-stack web application designed for a local car wrapping and detailing business. The app serves two audiences: customers, who can explore wrap options, visualize how different wraps look on their vehicle type, get instant price estimates, book appointments, and leave reviews — and administrators, who can manage scheduling, moderate reviews, and maintain detailed client records including transaction history and job notes.
+</p>
+
+<!-- 3. DATA DESCRIPTION -->
+<h2 id="data">3. Data Description</h2>
+
+<h3>users</h3>
+<p class="db-desc">Authentication &amp; role management. Stores all user accounts to enable login, session management, and role-based access.</p>
+<table class="db-table">
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td class="pk">user_id</td><td>INT(11)</td><td>Primary Key, AUTO_INCREMENT</td></tr>
+    <tr><td>email</td><td>VARCHAR(255)</td><td>Unique, used for login</td></tr>
+    <tr><td>password_hash</td><td>VARCHAR(255)</td><td>bcrypt hashed password</td></tr>
+    <tr><td>first_name</td><td>VARCHAR(100)</td><td></td></tr>
+    <tr><td>last_name</td><td>VARCHAR(100)</td><td></td></tr>
+    <tr><td>phone</td><td>VARCHAR(20)</td><td>Nullable</td></tr>
+    <tr><td>role</td><td>VARCHAR(10)</td><td>DEFAULT 'client'; 'client' or 'admin'</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT current_timestamp()</td></tr>
+  </tbody>
+</table>
+
+<h3>reviews</h3>
+<p class="db-desc">Customer-submitted reviews. Holds all customer reviews so they can be displayed publicly after admin approval.</p>
+<p class="rev-note rev-note-removed"><strong>REMOVED — Image upload field:</strong> An image upload field was initially considered for the reviews table. It was dropped after client consultation — deemed too complex for the project scope and of limited value to the workflow.</p>
+<table class="db-table">
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td class="pk">review_id</td><td>INT(11)</td><td>Primary Key, AUTO_INCREMENT</td></tr>
+    <tr><td class="fk">user_id</td><td>INT(11)</td><td>FK → users</td></tr>
+    <tr><td>rating</td><td>INT(11)</td><td>1–5 stars</td></tr>
+    <tr><td>title</td><td>VARCHAR(150)</td><td>Review headline</td></tr>
+    <tr><td>body</td><td>TEXT</td><td>Full review text</td></tr>
+    <tr><td>is_approved</td><td>TINYINT(1)</td><td>DEFAULT 0 (false), admin-moderated</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT current_timestamp()</td></tr>
+  </tbody>
+</table>
+
+<h3>appointments</h3>
+<p class="db-desc">Customer bookings and schedule slots. Tracks all scheduled appointments so customers can book and admins can manage the calendar.</p>
+<table class="db-table">
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td class="pk">appointment_id</td><td>INT(11)</td><td>Primary Key, AUTO_INCREMENT</td></tr>
+    <tr><td class="fk">user_id</td><td>INT(11)</td><td>FK → users</td></tr>
+    <tr><td>service_type</td><td>VARCHAR(50)</td><td>'wrap', 'detail', 'both', 'chrome delete'</td></tr>
+    <tr><td>appointment_date</td><td>DATE</td><td></td></tr>
+    <tr class="row-new"><td>time_slot</td><td>VARCHAR(20)</td><td>e.g. '10:00-12:00'; added via ALTER TABLE <span class="rev rev-new">NEW</span></td></tr>
+    <tr><td>status</td><td>VARCHAR(20)</td><td>'pending', 'confirmed', 'completed', 'cancelled'</td></tr>
+    <tr><td>vehicle_info</td><td>VARCHAR(255)</td><td>Make/model/year description</td></tr>
+    <tr class="row-new"><td>service</td><td>VARCHAR(100)</td><td>Free-text custom job description; DEFAULT 'Wrap Consultation'; added via ALTER TABLE <span class="rev rev-new">NEW</span></td></tr>
+    <tr><td>notes</td><td>TEXT</td><td>Customer or admin notes</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT current_timestamp()</td></tr>
+  </tbody>
+</table>
+<p class="rev-note rev-note-changed"><strong>CHANGED — service_type:</strong> 'chrome delete' added as a service option after the client requested it be listed alongside wraps and detailing.</p>
+<p class="rev-note rev-note-new"><strong>NEW — time_slot field:</strong> Added to the appointments table via <code>ALTER TABLE appointments ADD COLUMN time_slot VARCHAR(20) NOT NULL AFTER appointment_date</code> so the scheduling system can track specific booking windows.</p>
+<p class="rev-note rev-note-new"><strong>NEW — service field:</strong> Added via <code>ALTER TABLE appointments ADD COLUMN service VARCHAR(100) DEFAULT 'Wrap Consultation'</code> so customers can describe custom jobs beyond the preset service_type dropdown. Client wanted flexibility for unusual or bespoke requests.</p>
+
+<h3>transactions <span class="rev rev-changed">CHANGED</span></h3>
+<p class="db-desc">Client payment and job history (admin). Gives admin a financial record tied to each client.</p>
+<p class="rev-note rev-note-changed"><strong>CHANGED — transactions table structure:</strong> The implemented table differs from the original plan. Fields were simplified during development: <code>payment_method</code>, <code>job_description</code>, <code>status</code>, and <code>transaction_date</code> were replaced with <code>description</code>, <code>type</code> (an enum), and <code>created_at</code>. The <code>appointment_id</code> foreign key was also removed to keep the table simpler. These changes reflect what was practical to build within the project scope.</p>
+<table class="db-table">
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td class="pk">transaction_id</td><td>INT(11)</td><td>Primary Key, AUTO_INCREMENT</td></tr>
+    <tr><td class="fk">user_id</td><td>INT(11)</td><td>FK → users</td></tr>
+    <tr class="row-changed"><td>description</td><td>VARCHAR(255)</td><td>Description of work/charge (replaces job_description) <span class="rev rev-changed">CHANGED</span></td></tr>
+    <tr><td>amount</td><td>DECIMAL(10,2)</td><td>Total charged</td></tr>
+    <tr class="row-changed"><td>type</td><td>ENUM('charge','payment','refund')</td><td>Transaction type (replaces payment_method + status) <span class="rev rev-changed">CHANGED</span></td></tr>
+    <tr class="row-changed"><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT current_timestamp() (replaces transaction_date) <span class="rev rev-changed">CHANGED</span></td></tr>
+    <tr class="row-removed"><td>appointment_id</td><td>INTEGER</td><td>Removed — FK link to appointments not implemented</td></tr>
+    <tr class="row-removed"><td>payment_method</td><td>VARCHAR(50)</td><td>Removed — replaced by type enum</td></tr>
+    <tr class="row-removed"><td>job_description</td><td>TEXT</td><td>Removed — replaced by description</td></tr>
+    <tr class="row-removed"><td>status</td><td>VARCHAR(20)</td><td>Removed — replaced by type enum</td></tr>
+    <tr class="row-removed"><td>transaction_date</td><td>TIMESTAMP</td><td>Removed — replaced by created_at</td></tr>
+  </tbody>
+</table>
+
+<h3>contact_messages <span class="rev rev-new">NEW TABLE</span></h3>
+<p class="db-desc">In-site customer inquiries. Stores messages submitted via the contact page so the admin can read and follow up externally via email.</p>
+<p class="rev-note rev-note-new"><strong>NEW — contact_messages table:</strong> Added in response to client feedback. The client requested an in-site contact form for customers to send inquiries directly. The admin reads submissions and replies via their own email — the client explicitly did not want an in-app reply feature. An <code>is_read</code> flag was added so the admin can track which messages have been seen.</p>
+<table class="db-table">
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td class="pk">message_id</td><td>INT(11)</td><td>Primary Key, AUTO_INCREMENT</td></tr>
+    <tr><td>name</td><td>VARCHAR(150)</td><td>Sender's full name</td></tr>
+    <tr><td>email</td><td>VARCHAR(255)</td><td>Sender's email (validated)</td></tr>
+    <tr><td>subject</td><td>VARCHAR(200)</td><td>Message subject</td></tr>
+    <tr><td>body</td><td>TEXT</td><td>Message content</td></tr>
+    <tr class="row-new"><td>is_read</td><td>TINYINT(1)</td><td>DEFAULT 0; admin marks messages as read <span class="rev rev-new">NEW</span></td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT current_timestamp()</td></tr>
+  </tbody>
+</table>
+
+<!-- 4. FUNCTIONS -->
+<h2 id="functions">4. Functions Performed by the App</h2>
+
+<h3>Reviews System</h3>
+<p>Submit reviews, view approved reviews, admin will be able to moderate reviews.</p>
+
+<div class="func-block">
+  <h4>Submit a Review <span class="badge badge-insert">INSERT</span></h4>
+  <p>Logged-in users fill out a form with a star rating, title, and body. On submit, PHP validates input and performs an INSERT INTO reviews. The review defaults to is_approved = 0 pending admin moderation. Client-side: JavaScript validates form fields before submission and provides star-rating interactivity via click handlers.</p>
+</div>
+<div class="func-block">
+  <h4>View Approved Reviews <span class="badge badge-select">SELECT</span></h4>
+  <p>Public page fetches all reviews where is_approved = 1 via a SELECT joined with users for display name. Client-side: JS handles pagination and optional sorting by date or rating. The average star rating is displayed prominently at the top of the page before individual reviews.</p>
+</div>
+<div class="func-block">
+  <h4>Admin: Moderate Reviews <span class="badge badge-update">UPDATE</span> <span class="badge badge-delete">DELETE</span></h4>
+  <p>Admin panel shows all reviews. Approve toggles is_approved via UPDATE. Delete removes the row with DELETE FROM reviews. Client-side: JS confirms deletion with a modal prompt.</p>
+</div>
+
+<h3>Color/Tint Wrap Selector &amp; Quote Estimator</h3>
+<p>Be able to view different wraps and be able to visualize them on pre-made images. This feature also creates an estimated quote given details like car type, wrap type, etc.</p>
+
+<div class="func-block">
+  <h4>Browse Car Types &amp; Wraps <span class="badge badge-select">SELECT</span> <span class="rev rev-changed">CHANGED</span></h4>
+  <p>Page loads all car types and wraps via SELECT queries. Client-side: JS renders selectors for car type and wrap color/finish, now including chrome delete as a selectable service option.</p>
+</div>
+<p class="rev-note rev-note-changed"><strong>CHANGED — Chrome delete added as service option:</strong> Client asked for chrome deletes to be surfaced as a service alongside wraps and detailing. The selector and quote estimator now account for it.</p>
+
+<div class="func-block">
+  <h4>Visualize Wrap on Car <span class="badge badge-select">SELECT</span> <span class="badge badge-js">JS</span> <span class="rev rev-changed">CHANGED</span></h4>
+  <p>When both car type and wrap are selected, JS fetches the matching image via an AJAX request to PHP. The image element's src is swapped with a CSS crossfade transition. Stock photos of real completed wrap jobs are used instead of computer-generated images, providing a more professional and realistic preview for customers.</p>
+</div>
+<p class="rev-note rev-note-changed"><strong>CHANGED — Stock photos replace computer-generated images:</strong> Originally planned to use computer-generated wrap visualizations. After showing the client early mockups, they felt real photos of completed jobs would look more trustworthy and professional to customers. All car/wrap image assets were updated accordingly.</p>
+
+<div class="func-block">
+  <h4>Estimate Quote <span class="badge badge-select">SELECT</span> <span class="badge badge-js">JS</span></h4>
+  <p>Client-side JS computes a price using the selected wrap's price per square foot, vehicle size factor, and coverage multiplier. The calculation happens client-side for instant feedback.</p>
+</div>
+
+<h3>Scheduling System</h3>
+<p>View available time slots, book and cancel appointments, admin will be able to manage the scheduling system.</p>
+
+<div class="func-block">
+  <h4>View Available Slots <span class="badge badge-select">SELECT</span> <span class="badge badge-js">JS</span></h4>
+  <p>PHP queries appointments for a given date to find taken slots. JS renders a calendar grid with available and unavailable slots visually distinguished.</p>
+</div>
+<div class="func-block">
+  <h4>Book an Appointment <span class="badge badge-insert">INSERT</span> <span class="rev rev-changed">CHANGED</span></h4>
+  <p>Logged-in user selects a date, time slot, service type, and enters vehicle info. A free-text <code>service</code> field has been added so customers can describe custom jobs beyond the preset service_type dropdown. PHP checks availability, then performs an INSERT INTO appointments. Client-side: JS validates that all required fields are filled.</p>
+</div>
+<p class="rev-note rev-note-changed"><strong>CHANGED — Free-text service field added:</strong> Client noted that many customers have specific or unusual requests that don't fit neatly into preset categories. A free-text field was added so customers can describe exactly what they need. Stored in the new <code>service</code> column, added to the appointments table via ALTER TABLE.</p>
+
+<div class="func-block">
+  <h4>Cancel an Appointment <span class="badge badge-update">UPDATE</span></h4>
+  <p>Client or admin can cancel. PHP performs UPDATE appointments SET status = 'cancelled'. Client-side: JS shows a confirmation modal before sending the request.</p>
+</div>
+<div class="func-block">
+  <h4>Admin: Manage Schedule <span class="badge badge-update">UPDATE</span> <span class="badge badge-select">SELECT</span></h4>
+  <p>Admin views all appointments in a timetable. Can confirm, reschedule, or add notes via UPDATE queries.</p>
+</div>
+
+<h3>Login &amp; Admin Dashboard</h3>
+<p>Register new accounts, login and logout, admin will have more and special permissions compared to client users.</p>
+
+<div class="func-block">
+  <h4>Register a New Account <span class="badge badge-insert">INSERT</span></h4>
+  <p>Registration form collects email, password, name, and phone. PHP hashes the password with password_hash() and performs INSERT INTO users with role = 'client'. Client-side: JS validates email format, password strength, and required fields.</p>
+</div>
+<div class="func-block">
+  <h4>Login / Logout <span class="badge badge-select">SELECT</span></h4>
+  <p>PHP verifies credentials via SELECT from users, checks with password_verify(), then starts a session with role info. Logout destroys the session. Client-side: JS toggles UI elements based on session state.</p>
+</div>
+<div class="func-block">
+  <h4>Admin: Manage Client Profiles <span class="badge badge-select">SELECT</span> <span class="badge badge-update">UPDATE</span> <span class="badge badge-insert">INSERT</span></h4>
+  <p>Admin can search and view all users, edit client details, and enter transaction records (INSERT INTO transactions). Also views a client's transaction history and charges/payments via SELECT queries. Client-side: JS provides search/filter on the client list and tabbed views for profile, history, and appointments.</p>
+</div>
+<div class="func-block">
+  <h4>Contact Page — Submit Inquiry <span class="badge badge-insert">INSERT</span> <span class="rev rev-new">NEW</span></h4>
+  <p>Public contact form collects name, email, subject, and message body. PHP validates input and performs an INSERT INTO contact_messages. The <code>is_read</code> flag defaults to 0 so the admin can track unread messages. Admin reviews submissions and replies externally via email — no in-app reply feature per client request. Client-side: JS validates required fields and email format before submission.</p>
+</div>
+<p class="rev-note rev-note-new"><strong>NEW — Contact page &amp; inquiry function:</strong> Added based on client feedback. Client wanted customers to be able to reach out directly from the site rather than having to find contact info elsewhere. Messages are stored in the contact_messages table and the admin replies via email.</p>
+
+<!-- 5. ROLES -->
+<h2 id="roles">5. Roles of Team Members</h2>
+<p>Each team member owns a vertical slice of end-to-end functionality — handling the HTML, CSS, JavaScript, PHP, and database work for their piece.</p>
+
+<table class="team-table">
+  <tr><td>Kavin</td><td><strong>Reviews System</strong> — Reviews page UI, star-rating component (JS), review submission form, PHP review CRUD endpoints, admin review moderation panel, and the reviews table. Also added average star rating display at the top of the public reviews page based on client feedback on Increment 1.</td></tr>
+  <tr><td>Mikael</td><td><strong>Wrap Selector &amp; Estimator</strong> — Car selector UI, image swap animation using stock photos <span class="rev rev-changed">CHANGED</span> (JS), quote calculator logic (JS + PHP), PHP endpoints for image lookup, chrome delete service option <span class="rev rev-new">NEW</span>, and related database tables.</td></tr>
+  <tr><td>Ryan</td><td><strong>Scheduling System</strong> — Booking calendar UI, time-slot availability logic (JS + PHP), appointment creation/cancellation endpoints including free-text service field <span class="rev rev-new">NEW</span>, admin schedule management view, and the appointments table.</td></tr>
+  <tr><td>Jagbir</td><td><strong>Login &amp; Admin Dashboard</strong> — Login/register forms, PHP session management and role-based routing, admin dashboard layout, client profile management, transaction entry, and the users and transactions tables. <strong>Additionally:</strong> contact page and contact_messages table <span class="rev rev-new">NEW</span>, splash/landing page <span class="rev rev-new">NEW</span>, and informational pages (mission statement, about, contact info) <span class="rev rev-new">NEW</span> — all added based on client feedback, to be implemented after Increment 1.</td></tr>
+</table>
+
+<!-- 6. WIREFRAMES -->
+<h2 id="wireframes">6. Wireframes</h2>
+
+<div class="wireframe-grid">
+  <div>
+    <img src="images/wireframe-reviews.png" alt="Reviews page wireframe" style="width:100%; border:1px solid #ddd; border-radius:4px;">
+    <p class="wireframe-cap">Reviews Page — Kavin</p>
+  </div>
+  <div>
+    <img src="images/wireframe-visualizer.png" alt="Color/tint selector wireframe" style="width:100%; border:1px solid #ddd; border-radius:4px;">
+    <p class="wireframe-cap">Color/Tint Selector &amp; Quote — Mikael</p>
+  </div>
+  <div>
+    <img src="images/wireframe-scheduling.png" alt="Scheduling timetable wireframe" style="width:100%; border:1px solid #ddd; border-radius:4px;">
+    <p class="wireframe-cap">Scheduling Timetable — Ryan</p>
+  </div>
+  <div>
+    <img src="images/wireframe-admin (1).png" alt="Login and admin dashboard wireframe" style="width:100%; border:1px solid #ddd; border-radius:4px;">
+    <p class="wireframe-cap">Login &amp; Admin Dashboard — Jagbir</p>
+  </div>
+</div>
+
+<!-- 7. INCREMENTS -->
+<h2 id="increments">7. The Increments</h2>
+
+<div class="increment">
+  <h4>Increment 1 — Core Functionality</h4>
+  <ul>
+    <li><strong>[Kavin – Reviews]:</strong> Reviews page with submit form, display approved reviews from DB, star rating component functional</li>
+    <li><strong>[Mikael – Visualizer]:</strong> Car type and wrap selectors working, image swap using stock photos of real wrap jobs <span class="rev rev-changed">CHANGED</span> (replaced computer-generated images), chrome delete included as a service option <span class="rev rev-new">NEW</span>, basic quote calculation displayed on page</li>
+    <li><strong>[Ryan – Scheduling]:</strong> Calendar renders with available slots from DB, users can book an appointment with a free-text service field <span class="rev rev-new">NEW</span>, confirmation displayed</li>
+    <li><strong>[Jagbir – Auth/Admin]:</strong> Registration and login working with sessions, role-based redirects (client vs admin), basic admin layout with client list</li>
+  </ul>
+</div>
+
+<!-- 8. CLIENT FEEDBACK (initial) -->
+<h2 id="feedback">8. Client Feedback</h2>
+<p>
+  The client was happy with what we presented and gave no feedback on the core functionalities. All they asked for was some additional informational webpages regarding things like mission statement, about, and contact information. These changes being outside the core 4 full-stack functionalities will be implemented after the first increment as they require front-end technologies only.
+</p>
+<p>Summary of changes made in response to initial client feedback:</p>
+<ol style="padding-left: 1.25rem; margin-bottom: 0.75rem;">
+  <li style="margin: 0.4rem 0;"><span class="rev rev-new">NEW</span> <strong>Splash/landing page</strong> — Client wanted a landing page with before/after photos of completed wrap jobs and a summary of services with redirect links to key features.</li>
+  <li style="margin: 0.4rem 0;"><span class="rev rev-new">NEW</span> <strong>Chrome deletes added as a service</strong> — Added to the service_type options across the scheduling system and wrap visualizer.</li>
+  <li style="margin: 0.4rem 0;"><span class="rev rev-new">NEW</span> <strong>Contact page</strong> — In-site contact form; messages stored in the new contact_messages table. Admin replies externally via email only.</li>
+  <li style="margin: 0.4rem 0;"><span class="rev rev-changed">CHANGED</span> <strong>Scheduling — free-text service field</strong> — Customers can now describe custom jobs beyond preset dropdown options. Added via ALTER TABLE.</li>
+  <li style="margin: 0.4rem 0;"><span class="rev rev-changed">CHANGED</span> <strong>Wrap visualizer — stock photos</strong> — Real photos of completed jobs replace computer-generated images for a more professional look.</li>
+  <li style="margin: 0.4rem 0;"><span class="rev rev-removed">REMOVED</span> <strong>Image upload with reviews</strong> — Dropped after client consultation; too complex for scope with limited benefit.</li>
+  <li style="margin: 0.4rem 0;"><span class="rev rev-new">NEW</span> <strong>Informational pages</strong> (mission statement, about, contact info) — Front-end only, to be implemented after Increment 1.</li>
+</ol>
+
+<!-- 9. CLIENT FEEDBACK ON INCREMENT 1 -->
+<h2 id="increment1-feedback">9. Client Feedback on Increment 1</h2>
+<div class="feedback-section">
+  <p>After completing Increment 1, we presented the working application to the client, Parmeet Riar. The session covered all four core features: the reviews system, the wrap visualizer and quote estimator, the scheduling system, and the login/admin dashboard.</p>
+
+  <p>Overall, the client was very positive about the progress. They were particularly impressed with the booking calendar and the wrap visualizer, noting that seeing real stock photos made the tool feel much more polished.</p>
+
+  <blockquote>"The booking page looks exactly like what I had in mind — customers can actually see what times are open and just click to book. That's going to save me so many phone calls."</blockquote>
+
+  <blockquote>"The wrap photos look way better than the mock-up we saw before. Using real photos was definitely the right call. It looks professional."</blockquote>
+
+  <p>The client also had a few specific requests and pieces of feedback after seeing the live increment:</p>
+
+  <p><strong>1. Contact page priority.</strong> After seeing the full app, the client emphasized that the contact page was more important to them than originally conveyed. They want it completed alongside (or immediately after) the informational pages rather than as an afterthought.</p>
+
+  <blockquote>"I get a lot of people who just want to ask a quick question before booking. If they can do that right on the site, I think more of them will actually follow through."</blockquote>
+
+  <p><strong>2. Admin notes on appointments.</strong> The client asked whether the admin could add internal notes to specific bookings (e.g., to flag a customer's specific preferences or vehicle details that came up over the phone). This feature was already included in the appointments table via the <code>notes</code> field and the admin manage schedule view, which the client was pleased to hear.</p>
+
+  <blockquote>"Oh perfect, I didn't realize that was already in there. That's exactly what I need — sometimes people call and give me details I don't want to forget."</blockquote>
+
+  <p><strong>3. Star rating display.</strong> The client suggested that the public reviews page display the average star rating prominently at the top, rather than only showing individual reviews. This is a minor front-end addition that Kavin will incorporate before the final submission.</p>
+
+  <blockquote>"Most people just want to see the number — like 4.8 stars or whatever — right away before they scroll through everything. That would look really good up top."</blockquote>
+
+  <p>No major structural changes to the plan were required as a result of this meeting. The contact page has been elevated in priority, and the average rating display has been added as a small addition to the reviews page. All other core functionality was approved as-is.</p>
+</div>
+
+</body>
+</html>
